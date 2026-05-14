@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dünyanın En Güzel Kadınına... </title>
+    <title>Dünyanın En Güzel Kadınına... 🌹</title>
     
     <!-- Tailwind CSS for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,20 +14,58 @@
     <style>
         body {
             margin: 0;
-            overflow-x: hidden;
+            overflow: hidden; /* Sadece ana kart kayacak, arka plan sabit kalıp kendi akacak */
             background-color: #ffe6e6;
-            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6 2.686-6 6 0 4.02 5.05 8.16 10 12.5 4.95-4.34 10-8.48 10-12.5 0-3.314-2.686-6-6-6-2.21 0-4 1.79-4 4zm26 0c0-2.21-1.79-4-4-4-3.314 0-6 2.686-6 6 0 4.02 5.05 8.16 10 12.5 4.95-4.34 10-8.48 10-12.5 0-3.314-2.686-6-6-6-2.21 0-4 1.79-4 4z' fill='%23ffb3b3' fill-opacity='0.4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             font-family: 'Montserrat', sans-serif;
             color: #4a4a4a;
-            /* Dokunmatik cihazlarda seçimi kapat ki kaydırırken mavi olmasın */
             user-select: none; 
             -webkit-user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
 
         h1, h2, h3 {
             font-family: 'Playfair Display', serif;
             color: #d81b60;
         }
+
+        /* --- ARKA PLANDA KAYAN YAZI EFEKTİ --- */
+        .bg-text-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -1; /* En arkada dursun */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .bg-text-line {
+            white-space: nowrap;
+            font-size: 3rem;
+            font-weight: 600;
+            color: rgba(216, 27, 96, 0.08); /* Çok hafif, transparan pembe */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: scrollText 40s linear infinite; /* 40 saniyede bir tur */
+        }
+        
+        /* Farklı satırlar farklı yönlere ve hızlara kaysın diye ufak ayarlar */
+        .bg-text-line:nth-child(even) {
+            animation-direction: reverse;
+            animation-duration: 45s;
+        }
+
+        @keyframes scrollText {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* İçerik kendini tekrar edeceği için -50% yetiyor */
+        }
+
 
         /* Jilet gibi Cam Efekti */
         .glass-card {
@@ -40,39 +78,26 @@
             padding: 2rem;
             width: 90%;
             max-width: 500px;
-            margin: 0 auto;
-        }
-
-        /* Slider Konteyneri */
-        #slider-container {
-            position: relative;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        /* Individual Slides */
-        .slide {
             position: absolute;
-            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease;
-            width: 100%;
-            display: flex;
-            justify-content: center;
             opacity: 0;
             pointer-events: none;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease;
             transform: translateX(100%); /* Sağa gizle */
+            max-height: 80vh;
+            overflow-y: auto; /* İçerik uzunsa kart içi kaysın */
         }
 
-        .slide.active {
+        .glass-card::-webkit-scrollbar {
+            display: none; /* Scrollbar'ı gizle ama kaydırmaya izin ver */
+        }
+
+        .glass-card.active {
             opacity: 1;
             pointer-events: auto;
             transform: translateX(0); /* Ortala */
         }
 
-        .slide.prev {
+        .glass-card.prev {
             transform: translateX(-100%); /* Sola gizle */
         }
 
@@ -82,6 +107,13 @@
             padding: 2rem 0;
             opacity: 0;
             transition: opacity 1s ease;
+            width: 100vw;
+            height: 100vh;
+            overflow-y: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
         }
 
         /* Kalp Yağmuru CSS */
@@ -124,118 +156,142 @@
             background-color: #d81b60;
             border-radius: 4px;
         }
+        
+        #dots-container {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 5;
+        }
     </style>
 </head>
 <body>
 
+    <!-- ARKA PLAN KAYAN YAZILAR -->
+    <div class="bg-text-container" id="bg-text-container">
+        <!-- JS ile dolduracağız ki sürekli sonsuz döngüde kaysın -->
+    </div>
+
     <!-- Kalplerin yağacağı ana div -->
     <div id="heart-container"></div>
 
-    <!-- KAYDIRMALI BÖLÜM -->
-    <div id="slider-container">
-        
-        <!-- Slide 0: Giriş -->
-        <div class="slide active" id="slide-0">
-            <div class="glass-card text-center">
-                <h1 class="text-3xl font-bold mb-4">Dünyanın En Güzel Kadınına... </h1>
-                <p class="italic text-lg mb-6">Lütfen beni affet hayatım, çünkü sensiz aldığım nefesin bile bir anlamı yok.</p>
-                <p class="text-sm text-gray-400 mt-8 animate-bounce">Okumak için sola kaydır 👉</p>
-            </div>
+    <!-- Slide 0: Giriş -->
+    <div class="glass-card active slide" id="slide-0">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold mb-4">Dünyanın En Güzel Kadınına... 🌹</h1>
+            <p class="italic text-lg mb-6">Lütfen beni affet hayatım, çünkü sensiz aldığım nefesin bile bir anlamı yok.</p>
+            <p class="text-sm text-gray-400 mt-8 animate-bounce">Okumak için sola kaydır 👉</p>
         </div>
+    </div>
 
-        <!-- Slide 1: Özür -->
-        <div class="slide" id="slide-1">
-            <div class="glass-card text-center">
-                <h2 class="text-2xl font-bold mb-4">🥺 Sensiz Bir Saniye Bile Geçmiyor</h2>
-                <p class="mb-4">Çünkü biz birbirimiz için yaratıldık. İki yarım elma değil, tam bir dünya olduk seninle.</p>
-                <p>Sen bana küstüğünde renkler soluyor, gün aydınlanmıyor. Yaptığım eşşeklik için senden binlerce kez özür dilerim. Söz veriyorum, seni bir daha asla böyle üzmeyeceğim.</p>
-            </div>
+    <!-- Slide 1: Özür -->
+    <div class="glass-card slide" id="slide-1">
+        <div class="text-center">
+            <h2 class="text-2xl font-bold mb-4">🥺 Sensiz Bir Saniye Bile Geçmiyor</h2>
+            <p class="mb-4">Çünkü biz birbirimiz için yaratıldık. İki yarım elma değil, tam bir dünya olduk seninle.</p>
+            <p>Sen bana küstüğünde renkler soluyor, gün aydınlanmıyor. Yaptığım eşşeklik için senden binlerce kez özür dilerim. Söz veriyorum, seni bir daha asla böyle üzmeyeceğim.</p>
         </div>
+    </div>
 
-        <!-- Slide 2: Ben Kimim -->
-        <div class="slide" id="slide-2">
-            <div class="glass-card">
-                <h2 class="text-2xl font-bold mb-4 text-center">Seni Her Şeyden Çok Seven O Çocuk</h2>
-                <p class="mb-4 text-center">Belki bazen seni kızdıran, saçmalayan, düşüncesizlik eden o şapşal adamım... Ama aynı zamanda;</p>
-                <ul class="space-y-3 text-left">
+    <!-- Slide 2: Ben Kimim -->
+    <div class="glass-card slide" id="slide-2">
+        <h2 class="text-2xl font-bold mb-4 text-center">Seni Her Şeyden Çok Seven O Çocuk</h2>
+        <p class="mb-4 text-center">Belki bazen seni kızdıran, saçmalayan, düşüncesizlik eden o şapşal adamım... Ama aynı zamanda;</p>
+        <ul class="space-y-3 text-left">
+            <li class="flex items-start"><span class="mr-2">✨</span> Gözlerinin içine bakarken dünyanın durduğunu hisseden,</li>
+            <li class="flex items-start"><span class="mr-2">✨</span> Senin bir gülüşünle bütün dertlerini unutan,</li>
+            <li class="flex items-start"><span class="mr-2">✨</span> Hayatının geri kalanını sadece seninle, senin ellerini tutarak geçirmek isteyen o aşığım.</li>
+        </ul>
+    </div>
+
+    <!-- Slide 3: Su -->
+    <div class="glass-card slide" id="slide-3">
+        <div class="text-center">
+            <h2 class="text-2xl font-bold mb-4">👨‍👩‍👧 En Büyük Hayalimiz: Su</h2>
+            <p class="mb-4">Şimdi gözlerini kapat ve düşün sevgilim... İleride evimizde minik ayak sesleri yankılanacak. Dünyalar güzeli bir kızımız olacak, adını <b>Su</b> koyacağız.</p>
+            <p class="mb-4">Senin o güzel kalbini, o güzel gözlerini alacak. Evin içinde paytak paytak koşarken biz birbirimize bakıp ne kadar şanslı olduğumuzu hissedeceğiz. Su düştüğünde beraber kaldıracağız, ona bu dünyadaki en güzel sevgiyi, <i>bizim sevgimizi</i> öğreteceğiz.</p>
+            <p class="font-semibold text-pink-600">Ben o geleceği, Su'yu kucağımıza alacağımız o günü sadece seninle yaşamak istiyorum.</p>
+        </div>
+    </div>
+
+    <!-- Slide 4: Anılar -->
+    <div class="glass-card slide" id="slide-4">
+        <div class="text-center">
+            <h2 class="text-2xl font-bold mb-4">📸 Bizim Hikayemiz</h2>
+            <img src="foto1.jpg" onerror="this.src='https://placehold.co/400x250/ffb3b3/ffffff?text=Gülüşüne+dünyaları+sığdırdığım+anlar'" class="w-full h-auto rounded-lg mb-4 shadow" alt="Anı 1">
+            <img src="foto2.jpg" onerror="this.src='https://placehold.co/400x250/ffb3b3/ffffff?text=Ellerimiz+hiç+ayrılmasın'" class="w-full h-auto rounded-lg shadow" alt="Anı 2">
+        </div>
+    </div>
+
+    <!-- Slide 5: Affet Butonu -->
+    <div class="glass-card slide" id="slide-5">
+        <div class="text-center flex flex-col items-center">
+            <h2 class="text-3xl font-bold mb-6">Lütfen o güzel kalbinle beni affeder misin?</h2>
+            <button id="forgiveBtn" class="pulse-btn bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-8 rounded-full shadow-lg text-xl transition-all w-full">
+                Seni Affettim Sevgilim 💖
+            </button>
+        </div>
+    </div>
+
+    <!-- Sayfa Noktaları (Indicators) -->
+    <div id="dots-container">
+        <!-- JS ile doldurulacak -->
+    </div>
+
+    <!-- HER ŞEYİN LİSTELENDİĞİ DİKEY GÖRÜNÜM (Affettikten sonra açılır) -->
+    <div id="final-scroll-view">
+        <!-- Ortalamak için ekstra bir container -->
+        <div class="w-full max-w-2xl mx-auto px-4 pb-20 pt-10">
+            <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 text-center mb-8 shadow-xl border border-white/50">
+                <h1 class="text-4xl font-bold mb-4 text-pink-600">Dünyanın En Mutlu Adamı Yaptın Beni! 🎉</h1>
+                <p class="text-xl font-semibold text-gray-700">Seni çok seviyorum! Su'ya da selamlar! 🥰👶</p>
+            </div>
+            
+            <!-- Yukarıdaki içeriklerin kopyası alt alta -->
+            <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 mb-8 shadow-lg border border-white/50">
+                <h2 class="text-2xl font-bold mb-4 text-center text-pink-600">🥺 Sensiz Bir Saniye Bile Geçmiyor</h2>
+                <p class="text-gray-700">Çünkü biz birbirimiz için yaratıldık. İki yarım elma değil, tam bir dünya olduk seninle. Sen bana küstüğünde renkler soluyor, gün aydınlanmıyor. Yaptığım eşşeklik için senden binlerce kez özür dilerim. Söz veriyorum, seni bir daha asla böyle üzmeyeceğim.</p>
+            </div>
+
+            <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 mb-8 shadow-lg border border-white/50">
+                <h2 class="text-2xl font-bold mb-4 text-center text-pink-600">Seni Her Şeyden Çok Seven O Çocuk</h2>
+                <ul class="space-y-3 text-left text-gray-700">
                     <li class="flex items-start"><span class="mr-2">✨</span> Gözlerinin içine bakarken dünyanın durduğunu hisseden,</li>
                     <li class="flex items-start"><span class="mr-2">✨</span> Senin bir gülüşünle bütün dertlerini unutan,</li>
                     <li class="flex items-start"><span class="mr-2">✨</span> Hayatının geri kalanını sadece seninle, senin ellerini tutarak geçirmek isteyen o aşığım.</li>
                 </ul>
             </div>
-        </div>
 
-        <!-- Slide 3: Su -->
-        <div class="slide" id="slide-3">
-            <div class="glass-card text-center">
-                <h2 class="text-2xl font-bold mb-4">👨‍👩‍👧 En Büyük Hayalimiz: Su</h2>
-                <p class="mb-4">Şimdi gözlerini kapat ve düşün sevgilim... İleride evimizde minik ayak sesleri yankılanacak. Dünyalar güzeli bir kızımız olacak, adını <b>Su</b> koyacağız.</p>
-                <p class="mb-4">Senin o güzel kalbini, o güzel gözlerini alacak. Evin içinde paytak paytak koşarken biz birbirimize bakıp ne kadar şanslı olduğumuzu hissedeceğiz. Su düştüğünde beraber kaldıracağız, ona bu dünyadaki en güzel sevgiyi, <i>bizim sevgimizi</i> öğreteceğiz.</p>
-                <p class="font-semibold text-pink-600">Ben o geleceği, Su'yu kucağımıza alacağımız o günü sadece seninle yaşamak istiyorum.</p>
+            <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 mb-8 shadow-lg border border-white/50">
+                <h2 class="text-2xl font-bold mb-4 text-center text-pink-600">👨‍👩‍👧 En Büyük Hayalimiz: Su</h2>
+                <p class="text-gray-700">Şimdi gözlerini kapat ve düşün sevgilim... İleride evimizde minik ayak sesleri yankılanacak. Dünyalar güzeli bir kızımız olacak, adını <b>Su</b> koyacağız. Senin o güzel kalbini, o güzel gözlerini alacak. Evin içinde paytak paytak koşarken biz birbirimize bakıp ne kadar şanslı olduğumuzu hissedeceğiz. Su düştüğünde beraber kaldıracağız, ona bu dünyadaki en güzel sevgiyi, bizim sevgimizi öğreteceğiz.</p>
             </div>
-        </div>
-
-        <!-- Slide 4: Anılar -->
-        <div class="slide" id="slide-4">
-            <div class="glass-card text-center">
-                <h2 class="text-2xl font-bold mb-4">📸 Bizim Hikayemiz</h2>
-                <!-- Resimler yoksa bile placehold.co ile şık duracak -->
-                <img src="foto1.jpg" onerror="this.src='https://placehold.co/400x250/ffb3b3/ffffff?text=Gülüşüne+dünyaları+sığdırdığım+anlar'" class="w-full h-auto rounded-lg mb-4 shadow" alt="Anı 1">
-                <img src="foto2.jpg" onerror="this.src='https://placehold.co/400x250/ffb3b3/ffffff?text=Ellerimiz+hiç+ayrılmasın'" class="w-full h-auto rounded-lg shadow" alt="Anı 2">
+            
+            <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 mb-8 text-center shadow-lg border border-white/50">
+                 <h2 class="text-2xl font-bold mb-4 text-pink-600">📸 Bizim Hikayemiz</h2>
+                 <img src="foto1.jpg" onerror="this.src='https://placehold.co/400x250/ffb3b3/ffffff?text=Sonsuza+Dek+Beraber'" class="w-full h-auto rounded-lg mb-4 shadow">
+                 <img src="foto2.jpg" onerror="this.src='https://placehold.co/400x250/ffb3b3/ffffff?text=Ellerimiz+Ayrılmasın'" class="w-full h-auto rounded-lg shadow">
             </div>
-        </div>
-
-        <!-- Slide 5: Affet Butonu -->
-        <div class="slide" id="slide-5">
-            <div class="glass-card text-center flex flex-col items-center">
-                <h2 class="text-3xl font-bold mb-6">Lütfen o güzel kalbinle beni affeder misin?</h2>
-                <button id="forgiveBtn" class="pulse-btn bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-8 rounded-full shadow-lg text-xl transition-all w-full">
-                    Seni Affettim Sevgilim 💖
-                </button>
-            </div>
-        </div>
-
-        <!-- Sayfa Noktaları (Indicators) -->
-        <div class="absolute bottom-10 left-0 right-0 flex justify-center space-x-2" id="dots-container">
-            <!-- JS ile doldurulacak -->
-        </div>
-    </div>
-
-    <!-- HER ŞEYİN LİSTELENDİĞİ DİKEY GÖRÜNÜM (Affettikten sonra açılır) -->
-    <div id="final-scroll-view" class="w-full max-w-2xl mx-auto px-4 pb-20">
-        <div class="glass-card text-center mb-8">
-            <h1 class="text-4xl font-bold mb-4 text-pink-600">Dünyanın En Mutlu Adamı Yaptın Beni! 🎉</h1>
-            <p class="text-xl">Seni çok seviyorum! Su'ya da selamlar! 🥰👶</p>
-        </div>
-        
-        <!-- Yukarıdaki içeriklerin kopyası alt alta -->
-        <div class="glass-card mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-center">🥺 Sensiz Bir Saniye Bile Geçmiyor</h2>
-            <p>Çünkü biz birbirimiz için yaratıldık. İki yarım elma değil, tam bir dünya olduk seninle. Sen bana küstüğünde renkler soluyor, gün aydınlanmıyor. Yaptığım eşşeklik için senden binlerce kez özür dilerim. Söz veriyorum, seni bir daha asla böyle üzmeyeceğim.</p>
-        </div>
-
-        <div class="glass-card mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-center">Seni Her Şeyden Çok Seven O Çocuk</h2>
-            <ul class="space-y-3 text-left">
-                <li class="flex items-start"><span class="mr-2">✨</span> Gözlerinin içine bakarken dünyanın durduğunu hisseden,</li>
-                <li class="flex items-start"><span class="mr-2">✨</span> Senin bir gülüşünle bütün dertlerini unutan,</li>
-                <li class="flex items-start"><span class="mr-2">✨</span> Hayatının geri kalanını sadece seninle, senin ellerini tutarak geçirmek isteyen o aşığım.</li>
-            </ul>
-        </div>
-
-        <div class="glass-card mb-8">
-            <h2 class="text-2xl font-bold mb-4 text-center">👨‍👩‍👧 En Büyük Hayalimiz: Su</h2>
-            <p>Şimdi gözlerini kapat ve düşün sevgilim... İleride evimizde minik ayak sesleri yankılanacak. Dünyalar güzeli bir kızımız olacak, adını <b>Su</b> koyacağız. Senin o güzel kalbini, o güzel gözlerini alacak. Evin içinde paytak paytak koşarken biz birbirimize bakıp ne kadar şanslı olduğumuzu hissedeceğiz. Su düştüğünde beraber kaldıracağız, ona bu dünyadaki en güzel sevgiyi, bizim sevgimizi öğreteceğiz.</p>
-        </div>
-        
-        <div class="glass-card mb-8 text-center">
-             <h2 class="text-2xl font-bold mb-4">📸 Bizim Hikayemiz</h2>
-             <img src="foto1.jpg" onerror="this.src='https://placehold.co/400x250/ffb3b3/ffffff?text=Sonsuza+Dek+Beraber'" class="w-full h-auto rounded-lg mb-4 shadow">
-             <img src="foto2.jpg" onerror="this.src='https://placehold.co/400x250/ffb3b3/ffffff?text=Ellerimiz+Ayrılmasın'" class="w-full h-auto rounded-lg shadow">
         </div>
     </div>
 
     <script>
+        // --- ARKA PLAN YAZI OLUŞTURUCU ---
+        const bgContainer = document.getElementById('bg-text-container');
+        // İki kere yazdım ki bitince tekrar baştan başlasın animasyon kopmasın
+        const bgText = "dünyanın en güzel gözlü en güzel kaşlı en güzeş kirpikli en güzel saçlı en güzel dudaklı en güzel dişli en güzel yanaklı en güzel burunlu en güzel memeli en güzel poplu insanı seni çok seviyorum lütfen affet - dünyanın en güzel gözlü en güzel kaşlı en güzeş kirpikli en güzel saçlı en güzel dudaklı en güzel dişli en güzel yanaklı en güzel burunlu en güzel memeli en güzel poplu insanı seni çok seviyorum lütfen affet - ";
+        
+        // Ekrana 6 satır sığar ortalama
+        for(let i=0; i<6; i++) {
+            const row = document.createElement('div');
+            row.className = 'bg-text-line';
+            row.innerText = bgText;
+            bgContainer.appendChild(row);
+        }
+
         // --- SLIDER (CAROUSEL) MANTIĞI ---
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
@@ -253,7 +309,7 @@
         function updateSlides() {
             slides.forEach((slide, index) => {
                 slide.classList.remove('active', 'prev');
-                slide.style.transform = ''; // Clear inline styles
+                slide.style.transform = ''; 
                 
                 if (index === currentSlide) {
                     slide.classList.add('active');
@@ -272,30 +328,29 @@
         // Dokunmatik Kaydırma (Swipe) Algılama
         let touchStartX = 0;
         let touchEndX = 0;
-        const sliderContainer = document.getElementById('slider-container');
 
-        sliderContainer.addEventListener('touchstart', e => {
+        document.body.addEventListener('touchstart', e => {
             touchStartX = e.changedTouches[0].screenX;
         }, {passive: true});
 
-        sliderContainer.addEventListener('touchend', e => {
+        document.body.addEventListener('touchend', e => {
             touchEndX = e.changedTouches[0].screenX;
             handleSwipe();
         }, {passive: true});
 
         // Mouse ile sürükleme (Bilgisayar testi için)
         let isDragging = false;
-        sliderContainer.addEventListener('mousedown', e => {
+        document.body.addEventListener('mousedown', e => {
             isDragging = true;
             touchStartX = e.clientX;
         });
-        sliderContainer.addEventListener('mouseup', e => {
+        document.body.addEventListener('mouseup', e => {
             if(!isDragging) return;
             isDragging = false;
             touchEndX = e.clientX;
             handleSwipe();
         });
-        sliderContainer.addEventListener('mouseleave', e => {
+        document.body.addEventListener('mouseleave', e => {
             if(isDragging) {
                 isDragging = false;
                 touchEndX = e.clientX;
@@ -304,7 +359,10 @@
         });
 
         function handleSwipe() {
-            const threshold = 50; // Kaydırma hassasiyeti
+            // Sadece slider görünürken swipe çalışsın
+            if(document.getElementById('final-scroll-view').style.display === 'block') return;
+
+            const threshold = 50; 
             if (touchEndX < touchStartX - threshold) {
                 // Sola kaydırdı -> İleri git
                 if (currentSlide < slides.length - 1) {
@@ -333,10 +391,9 @@
                     heart.innerHTML = '❤️';
                     heart.classList.add('rain-heart');
                     
-                    // Rastgele pozisyon ve animasyon süresi
                     const leftPos = Math.random() * 100;
-                    const duration = Math.random() * 3 + 2; // 2-5 saniye arası
-                    const size = Math.random() * 2 + 1; // 1-3 rem arası
+                    const duration = Math.random() * 3 + 2; 
+                    const size = Math.random() * 2 + 1; 
                     
                     heart.style.left = `${leftPos}vw`;
                     heart.style.animationDuration = `${duration}s`;
@@ -344,39 +401,33 @@
                     
                     container.appendChild(heart);
                     
-                    // Animasyon bitince DOM'dan temizle (Performans için)
                     setTimeout(() => {
                         heart.remove();
                     }, duration * 1000);
-                }, i * 50); // Kalpler aralıklı düşsün
+                }, i * 50); 
             }
         }
 
         forgiveBtn.addEventListener('click', () => {
-            // 1. Kalpleri yağdır
             makeItRainHearts();
             
-            // 2. Slider'ı gizle
-            sliderContainer.style.opacity = '0';
+            // Slide'ları ve noktaları gizle
+            slides.forEach(slide => slide.style.display = 'none');
+            dotsContainer.style.display = 'none';
+            // Kaydırmayı aç
+            document.body.style.overflow = 'auto';
+            
+            // Final view'u göster
+            finalScrollView.style.display = 'block';
             setTimeout(() => {
-                sliderContainer.style.display = 'none';
-                
-                // 3. Alt alta olan "Komple her şey" modunu aç
-                finalScrollView.style.display = 'block';
-                // Küçük bir gecikme ile opacity'yi 1 yap ki fade-in olsun
-                setTimeout(() => {
-                    finalScrollView.style.opacity = '1';
-                }, 50);
-                
-                // Sayfayı en üste kaydır
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                // Arka planda ara ara kalp yağmaya devam etsin kutlama için
-                setInterval(() => {
-                    if(Math.random() > 0.5) makeItRainHearts();
-                }, 5000);
-
-            }, 500); // Slider'ın opacity transition süresi kadar bekle
+                finalScrollView.style.opacity = '1';
+            }, 50);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            setInterval(() => {
+                if(Math.random() > 0.5) makeItRainHearts();
+            }, 5000);
         });
 
         // Başlangıç durumu
