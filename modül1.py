@@ -1,70 +1,107 @@
 import streamlit as st
 import time
 
-# Sayfa ayarları
-st.set_page_config(page_title="Ece A.Ş. Özür Raporu", page_icon="🥺", layout="centered")
+# Sayfa ayarları - Romantik ikon ve başlık
+st.set_page_config(page_title="Seni Çok Seviyorum Ece", page_icon="❤️", layout="centered")
 
-# Kurumsal ama komik başlık
-st.markdown("<h1 style='text-align: center; color: #E83E8C;'>Ece A.Ş. Resmi Özür ve Gelecek Vizyonu Portalı 📄</h1>", unsafe_allow_html=True)
+# CSS ile sayfayı romantik bir temaya büründürüyoruz (Açık pembe tonlar, yuvarlak butonlar)
+st.markdown("""
+<style>
+    .stApp {
+        background-color: #FFF0F5;
+    }
+    h1, h2, h3 {
+        color: #D63384 !important;
+        font-family: 'Georgia', serif;
+    }
+    p, li {
+        color: #4A4A4A;
+        font-size: 18px;
+        font-family: 'Arial', sans-serif;
+    }
+    .stButton>button {
+        color: white;
+        background-color: #FF4B4B;
+        border-radius: 30px;
+        border: none;
+        padding: 10px 24px;
+        font-size: 18px;
+        transition: 0.3s;
+    }
+    .stButton>button:hover {
+        background-color: #FF1A1A;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .css-1d391kg {
+        background-color: #FFE4E1;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Ana Başlık
+st.markdown("<h1 style='text-align: center;'>Dünyanın En Güzel Kadınına... 🌹</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; font-style: italic;'>Lütfen beni affet sevgilim, çünkü sensiz aldığım nefesin bile bir anlamı yok.</p>", unsafe_allow_html=True)
 st.write("---")
 
-st.sidebar.title("📌 Kurumsal Navigasyon")
-menu = ["Ben Kimim?", "Neden Barışmalıyız?", "Neden Evlenmeliyiz?", "Artılarımız & Eksilerimiz", "Anılar (Data Arşivi)"]
-choice = st.sidebar.radio("Lütfen bir modül seçiniz:", menu)
+st.sidebar.title("💌 Kalbimin Sesi")
+menu = ["Ben Kimim?", "Neden Barışmalıyız?", "Neden Evlenmeliyiz?", "Bizim Dünyamız", "En Güzel Anlarımız"]
+choice = st.sidebar.radio("Lütfen birini seç biriciğim:", menu)
 
 if choice == "Ben Kimim?":
-    st.header("👤 Profil Analizi: Ahmet Enes Erkan")
-    st.write("Sayın Yönetim Kurulu Başkanı (Ece),")
-    st.write("Aşağıda sunulan profil, bazen odunluk seviyesi yüksek olsa da özünde full size çalışan bir CEO'ya aittir.")
-    st.info("Hata Kodu 404: Mantık bulunamadı, sadece aşk var. ❤️")
-    st.write("- **Meslek:** Senin dertlerinle dertlenen, kargo ve lojistik problemleri çözer gibi ilişki krizlerini çözmeye çalışan bir garip girişimci.")
-    st.write("- **Yetenekler:** Gereksiz inat, ama sonunda hep senin haklı olduğunu anlama kapasitesi.")
+    st.header("👤 Seni Her Şeyden Çok Seven O Çocuk")
+    st.write("Belki bazen seni kızdıran, saçmalayan, düşüncesizlik eden o şapşal adamım...")
+    st.write("Ama aynı zamanda;")
+    st.write("✨ Gözlerinin içine bakarken dünyanın durduğunu hisseden,")
+    st.write("✨ Senin bir gülüşünle bütün dertlerini unutan,")
+    st.write("✨ Hayatının geri kalanını sadece seninle, senin ellerini tutarak geçirmek isteyen o aşığım.")
+    st.info("Hatam ne olursa olsun, kalbimde senden başka hiçbir doğru yok. ❤️")
 
 elif choice == "Neden Barışmalıyız?":
-    st.header("🤝 Stratejik Ortaklık ve Barış Gerekçeleri")
-    st.write("Bu küsme süreci, her iki tarafın da (özellikle benim) hisse senetlerinde ciddi düşüşe yol açmıştır.")
+    st.header("🥺 Sensiz Bir Saniye Bile Geçmiyor")
+    st.write("Çünkü biz birbirimiz için yaratıldık. İki yarım elma değil, tam bir dünya olduk seninle.")
+    st.write("Sen bana küstüğünde renkler soluyor, gün aydınlanmıyor. Yaptığım eşşeklik için senden binlerce kez özür dilerim. Söz veriyorum, seni bir daha asla böyle üzmeyeceğim.")
     
-    if st.button("Barışma Talebini Değerlendir ve Onayla"):
+    st.write("---")
+    st.write("Lütfen o güzel kalbinle beni affeder misin?")
+    if st.button("Seni Affettim Sevgilim ❤️"):
         st.balloons()
-        st.success("Tebrikler! Mantıklı bir karar verdiniz. Şirketimiz sizinle büyümeye devam edecek. 🎉")
-        
-    st.write("1. **Sürdürülebilirlik:** Sensiz benim sistem hata veriyor, hayattan api çekemiyorum man.")
-    st.write("2. **Ekonomi:** Ayrı ayrı takılmak maliyetli, birleşip kar edebiliriz.")
-    st.write("3. **Psikoloji:** Yüzüm gülmüyor, mental stoklar eridi, acil müdahalen lazım.")
+        st.success("Dünyalar benim oldu! Seni her şeyden, herkesten çok seviyorum! İyi ki varsın... 🥰")
 
 elif choice == "Neden Evlenmeliyiz?":
-    st.header("💍 Uzun Vadeli Yatırım Planı: Evlilik")
-    st.write("Bu birleşme (merger), sektördeki en güçlü ikiliyi yaratacaktır.")
-    st.warning("Dikkat: Bu teklif ömür boyu garanti ve sadakat içerir!")
-    st.write("- Çünkü ben o yüzüğü o parmağa takmadan rahat etmicem.")
-    st.write("- Evlenirsek her gün bu kurumsal şakaları dinlemek zorunda kalacaksın, amazing değil mi?")
-    st.write("- Ortak bir şirket (yuva) kurup, tek yetkili CEO'luğa seni atayacağım.")
+    st.header("💍 Sonsuzluğumuz: Geleceğimiz")
+    st.write("Çünkü ben sabahları gözümü açtığımda ilk senin o güzel yüzünü görmek istiyorum.")
+    st.write("Çünkü ben yorucu bir günün ardından eve geldiğimde 'hoş geldin' diyen sesinle huzur bulmak istiyorum.")
+    st.write("Seninle yaşlanmak, beraber çocuklarımızı sevmek, saçlarımıza aklar düştüğünde bile el ele yürümek istiyorum.")
+    st.warning("Bu bir tekliften daha fazlası; bu sana adanmış bir ömrün sözüdür. ♾️")
 
-elif choice == "Artılarımız & Eksilerimiz":
-    st.header("📊 İlişki SWOT Analizi")
+elif choice == "Bizim Dünyamız":
+    st.header("💞 Artılarımız ve Eksilerimiz")
     col1, col2 = st.columns(2)
     with col1:
-        st.subheader("➕ Artılarımız")
-        st.write("✅ Mükemmel uyum (Sen mükemmelsin, ben ayak uyduruyorum)")
-        st.write("✅ Birlikte çok good time geçirmemiz")
-        st.write("✅ Vibe'ımızın full match olması")
+        st.subheader("✨ Artılarımız")
+        st.write("❤️ Dünyanın en güzel aşkını yaşamamız")
+        st.write("🫂 Saatlerce birbirimize sarılıp susabilmemiz")
+        st.write("😂 Beraberken çocuk gibi eğlenebilmemiz")
+        st.write("🧿 Birbirimizin eksiklerini sevgiyle tamamlamamız")
     with col2:
-        st.subheader("➖ Eksilerimiz")
-        st.write("❌ Benim bazen saçmalamam")
-        st.write("❌ Senin haklı olman ama benim bunu geç processing etmem")
-        st.write("❌ Şu an ayrı kalıp vakit kaybetmemiz")
+        st.subheader("🥀 Eksilerimiz")
+        st.write("💔 Benim bazen seni istemeden de olsa kırmam")
+        st.write("⏳ Sensiz geçen, boşa harcanmış her saniye")
+        st.write("😔 Şu an yanımda olamaman ve sana sarılamamam...")
 
-elif choice == "Anılar (Data Arşivi)":
-    st.header("📸 Anılar A.Ş. Görsel Arşivi")
-    st.write("Burada eski ama altın değerindeki datalarımız mevcuttur.")
+elif choice == "En Güzel Anlarımız":
+    st.header("📸 Birlikte Yazdığımız Masal")
+    st.write("Şu fotoğraflara bak... Biz yan yanayken o kadar güzeliz ki, hiçbir şeyin bunu bozmasına izin veremem.")
     
     # Animasyonlu yükleme efekti
-    with st.spinner('Eski güzel günler yükleniyor...'):
+    with st.spinner('Aşkımız yükleniyor...'):
         time.sleep(2)
     
     try:
-        st.image("foto1.jpg", caption="Şirketimizin en mutlu anları vol.1", use_column_width=True)
-        st.image("foto2.jpg", caption="Beraber dünyayı fethederken", use_column_width=True)
+        # Fotoğraf isimlerini aynen koruduk, sen kendi fotolarını eklersin
+        st.image("foto1.jpg", caption="Gözlerine bakmaya doyamadığım o an...", use_column_width=True)
+        st.image("foto2.jpg", caption="İyi ki varsın, iyi ki benimsin.", use_column_width=True)
     except:
-        st.error("Sistem Uyarısı: Fotoğraflar henüz yüklenmedi. Lütfen repo içine 'foto1.jpg' ve 'foto2.jpg' dosyalarını salınız.")
+        st.error("Biriciğim, fotoğraflarımız şu an yükleniyor (GitHub'a foto1.jpg ve foto2.jpg'yi atınca burada bizim o güzel yüzlerimiz çıkacak).")
+        # Fotoğraflar yoksa bile romantik bir kalp yağmuru yağsın
         st.snow()
