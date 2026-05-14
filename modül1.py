@@ -13,8 +13,9 @@ st.markdown("""
     
     /* 1. Arka planı kalpli pattern yapıyoruz */
     .stApp {
-        background-color: #ffe6e6;
-        background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6 2.686-6 6 0 4.02 5.05 8.16 10 12.5 4.95-4.34 10-8.48 10-12.5 0-3.314-2.686-6-6-6-2.21 0-4 1.79-4 4zm26 0c0-2.21-1.79-4-4-4-3.314 0-6 2.686-6 6 0 4.02 5.05 8.16 10 12.5 4.95-4.34 10-8.48 10-12.5 0-3.314-2.686-6-6-6-2.21 0-4 1.79-4 4z' fill='%23ffb3b3' fill-opacity='0.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        background-color: #ffe6e6 !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 50 50'%3E%3Cpath fill='%23ff9999' fill-opacity='0.6' d='M25 39.7l-1.5-1.4C18.2 33.6 14 29.8 14 25c0-3.9 3.1-7 7-7 2.2 0 4.3 1 5.6 2.6 1.3-1.6 3.4-2.6 5.6-2.6 3.9 0 7 3.1 7 7 0 4.8-4.2 8.6-9.5 13.3L25 39.7z'/%3E%3C/svg%3E") !important;
+        background-size: 80px 80px !important;
     }
 
     /* 2. Streamlit'in ANA KONTEYNERİNİ cam karta çeviriyoruz (TEMA KAYMASINA KESİN ÇÖZÜM) */
