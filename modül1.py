@@ -54,12 +54,25 @@ st.markdown("""
         background-attachment: fixed;
     }
 
+    /* Ana İçerik Kutusu (Glassmorphism) - Okunabilirliği %100 Yapar */
+    .block-container {
+        background: rgba(255, 255, 255, 0.90) !important; /* Yazıların arkasını belirginleştirdik */
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 30px;
+        padding: 3rem !important;
+        box-shadow: 0 10px 40px rgba(255, 182, 193, 0.6);
+        border: 2px solid rgba(255, 255, 255, 1);
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
     /* Font Ayarları */
     h1, h2, h3 {
         font-family: 'Playfair Display', serif !important;
         color: #900C3F !important; /* Premium Bordo/Kırmızı */
         text-align: center;
-        text-shadow: 1px 1px 3px rgba(255,255,255,0.8);
+        text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
     }
     
     p, li, .stMarkdown {
@@ -69,33 +82,20 @@ st.markdown("""
         line-height: 1.8;
     }
 
-    /* Buzlu Cam (Glassmorphism) Konteynerler */
-    div[data-testid="stVerticalBlock"] > div > div[data-testid="stVerticalBlock"] {
-        background: rgba(255, 255, 255, 0.65);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 8px 32px 0 rgba(255, 182, 193, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.8);
-        margin-bottom: 2rem;
-    }
-
-    /* Gizlemeler ve Animasyonlar */
+    /* Gizlemeler ve iPhone uyumlu Animasyonlar */
     [data-testid="stSidebar"], [data-testid="collapsedControl"], header { display: none !important; }
     
-    div.element-container {
-        animation: fade-in-up 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-        animation-timeline: view();
-        animation-range: entry 5% cover 25%;
+    /* Sayfa açılışında yumuşakça belirme efekti (Her telefonda çalışır) */
+    .block-container {
+        animation: fade-in-up 1.2s ease-out forwards;
     }
     
     @keyframes fade-in-up {
-        0% { opacity: 0; transform: translateY(80px); }
+        0% { opacity: 0; transform: translateY(40px); }
         100% { opacity: 1; transform: translateY(0); }
     }
     
-    .spacer { height: 35vh; }
+    .spacer { height: 60px; } /* Ara boşlukları ideal seviyeye çektik */
 
     /* Buton Tasarımı - Premium & Glowing */
     .stButton>button {
