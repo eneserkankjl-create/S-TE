@@ -1,5 +1,40 @@
 import streamlit as st
 import time
+import random
+
+# Custom kalp yağmuru efekti
+def rain_hearts():
+    heart_css = """
+    <style>
+    .heart-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 99999;
+    }
+    .heart-emoji {
+        position: absolute;
+        top: -10%;
+        animation: fall linear forwards;
+    }
+    @keyframes fall {
+        0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    </style>
+    <div class="heart-container">
+    """
+    for _ in range(50):
+        left = random.randint(0, 100)
+        delay = random.uniform(0, 2)
+        duration = random.uniform(3, 6)
+        size = random.uniform(1.5, 3)
+        heart_css += f'<div class="heart-emoji" style="left: {left}vw; animation-duration: {duration}s; animation-delay: {delay}s; font-size: {size}rem;">❤️</div>'
+    heart_css += "</div>"
+    st.markdown(heart_css, unsafe_allow_html=True)
 
 # Sayfa ayarları - Romantik ikon ve başlık
 st.set_page_config(page_title="Seni Çok Seviyorum Ece", page_icon="❤️", layout="centered")
@@ -90,7 +125,7 @@ st.write("Sen bana küstüğünde renkler soluyor, gün aydınlanmıyor. Yaptı�
 st.write("---")
 st.write("Lütfen o güzel kalbinle beni affeder misin?")
 if st.button("Seni Affettim Sevgilim ❤️"):
-    st.balloons()
+    rain_hearts()
     st.success("Dünyalar benim oldu! Seni her şeyden, herkesten çok seviyorum! İyi ki varsın... 🥰")
 
 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
@@ -132,7 +167,7 @@ try:
     st.image("foto2.jpg", caption="İyi ki varsın, iyi ki benimsin.", use_column_width=True)
 except:
     st.error("Biriciğim, fotoğraflarımız şu an yükleniyor (GitHub'a foto1.jpg ve foto2.jpg'yi atınca burada bizim o güzel yüzlerimiz çıkacak).")
-    st.snow()
+    rain_hearts()
 
 st.markdown("<div class='spacer'></div>", unsafe_allow_html=True)
 st.markdown("<h2 style='text-align: center; color: #D63384; font-size: 36px; padding-bottom: 50px;'>Seni Çok Seviyorum... Sonsuza Dek. ❤️</h2>", unsafe_allow_html=True)
