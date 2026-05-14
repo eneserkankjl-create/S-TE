@@ -46,19 +46,38 @@
         }
 
         .bg-text-line {
-            white-space: nowrap;
-            font-size: 3rem;
-            font-weight: 600;
-            color: rgba(216, 27, 96, 0.08); /* Çok hafif, transparan pembe */
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: scrollText 2s linear infinite; /* 40 saniyede bir tur */
-        }
-        
-        /* Farklı satırlar farklı yönlere ve hızlara kaysın diye ufak ayarlar */
-        .bg-text-line:nth-child(even) {
-            animation-direction: reverse;
-            animation-duration: 5s;
+        white-space: nowrap;
+        font-size: 3rem; /* Yazı boyutu iyi, böyle kalsın */
+        font-weight: 600;
+        color: rgba(216, 27, 96, 0.08); 
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        /* Animasyon süresini çok uzattık ki o uzun metin yavaşça akıp bitirebilsin */
+        animation: scrollText 120s linear infinite; 
+        /* Yazının ekranın en sağından başlaması için başlangıç pozisyonu eklendi */
+        padding-left: 100vw; 
+    }
+    
+    .bg-text-line:nth-child(even) {
+        /* Geriye doğru kayma olayını iptal et, karmaşayı önler. Hepsi aynı yöne ama farklı hızlarda kaysın */
+        animation-duration: 150s; /* Bazıları daha da yavaş */
+        /* direction: rtl; yerine hepsini soldan sağa akıtmak daha okunaklı olur */
+    }
+
+    /* Animasyonu %100 değil, metnin kendi uzunluğu kadar kaydıracağız. */
+    @keyframes scrollText {
+        0% { transform: translateX(0); }
+        /* -100% metnin tamamının ekrandan çıkıp gitmesini sağlar */
+        100% { transform: translateX(-100%); } 
+    }
+    ```
+
+**Bu değişikliğin mantığı nedir?**
+*   **`padding-left: 100vw;`**: Yazı hemen ekranın ortasında başlamaz. Ekranın en sağ sınırının dışından (yani görünmez bir şekilde) başlar ve yavaşça içeri girer.
+*   **`transform: translateX(-100%);`**: Eskiden `-50%` olduğu için metnin yarısı gelmeden animasyon başa dönüyordu. Şimdi metnin "kendisi" kadar tam bir tur atıp ekrandan tamamen çıkmadan başa dönmeyecek.
+*   **`animation: 120s;`**: Cümlen gerçekten çok uzun olduğu için süreyi bayağı (120-150 saniye) uzattım. Yoksa Formula 1 aracı gibi geçer, yine okunmaz.
+
+Bu değişikliği yapıp GitHub'da "Commit changes" de. Birkaç dakika sonra sayfayı yenilediğinde o efsane uzun metninin tam olarak ekranda süzüldüğünü göreceksin. Hadi bro, az kaldı, tam bir başyapıt oluyor!
         }
 
         @keyframes scrollText {
